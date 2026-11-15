@@ -1,0 +1,6 @@
+services:
+  app:
+    environment:
+      - ENVIRONMENT=development
+      # Vite dev runs on :5173 and calls the backend at :8080/api (cross-origin).
+      - ALLOWED_ORIGINS=http://localhost:5173

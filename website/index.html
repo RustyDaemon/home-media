@@ -1,0 +1,1219 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      Home Media: a self-hosted catalog for your DVD, Blu-ray and 4K discs
+    </title>
+    <meta
+      name="description"
+      content="Home Media is a free, open-source, self-hosted catalog for physical disc collections. Track editions, audio tracks, subtitles and borrowed copies, then let it pick tonight's movie."
+    />
+    <meta name="theme-color" content="#97938b" />
+    <meta name="color-scheme" content="only light" />
+    <link rel="canonical" href="https://hm.rustydaemon.com/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://hm.rustydaemon.com/" />
+    <meta property="og:site_name" content="Home Media" />
+    <meta
+      property="og:title"
+      content="Home Media: for people who still buy discs"
+    />
+    <meta
+      property="og:description"
+      content="A free, self-hosted catalog for your DVD, Blu-ray and 4K collection. One Docker container, your data stays home."
+    />
+    <meta
+      property="og:image"
+      content="https://hm.rustydaemon.com/assets/img/og-image.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Home Media: for people who still buy discs, next to a shelf of disc cases"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content="https://hm.rustydaemon.com/assets/img/og-image.png"
+    />
+
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="assets/fonts/archivo-latin-var.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="assets/css/site.css" />
+    <script src="assets/js/site.js" defer></script>
+    <noscript>
+      <style>
+        .stage,
+        .theme-pick,
+        .theme-desc,
+        #density,
+        .opts__secret {
+          display: none;
+        }
+      </style>
+    </noscript>
+  </head>
+  <body>
+    <svg
+      width="0"
+      height="0"
+      class="sprite"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <symbol id="i-dice" viewBox="0 0 24 24">
+        <rect
+          x="3.5"
+          y="3.5"
+          width="17"
+          height="17"
+          rx="4"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.4"
+        />
+        <circle cx="8.5" cy="8.5" r="1.6" fill="currentColor" />
+        <circle cx="15.5" cy="8.5" r="1.6" fill="currentColor" />
+        <circle cx="12" cy="12" r="1.6" fill="currentColor" />
+        <circle cx="8.5" cy="15.5" r="1.6" fill="currentColor" />
+        <circle cx="15.5" cy="15.5" r="1.6" fill="currentColor" />
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <path
+          d="M5 12.5l4.5 4.5L19 7.5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24">
+        <circle
+          cx="10.5"
+          cy="10.5"
+          r="6.5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.6"
+        />
+        <path
+          d="M15.5 15.5L20.5 20.5"
+          stroke="currentColor"
+          stroke-width="2.6"
+          stroke-linecap="round"
+        />
+      </symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24">
+        <rect
+          x="8.5"
+          y="8.5"
+          width="12"
+          height="12"
+          rx="2.5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.4"
+        />
+        <path
+          d="M15.5 8.5V5.5a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h3"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.4"
+        />
+      </symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24">
+        <path
+          d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4v4.5H15"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24">
+        <path
+          d="M12 5v14M5 12h14"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+        />
+      </symbol>
+      <symbol id="i-link" viewBox="0 0 24 24">
+        <path
+          d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.4"
+          stroke-linecap="round"
+        />
+      </symbol>
+      <symbol id="i-star" viewBox="0 0 24 24">
+        <path
+          d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z"
+          stroke="#000"
+          stroke-width="2"
+          stroke-linejoin="round"
+        />
+      </symbol>
+      <symbol id="i-github" viewBox="0 0 16 16">
+        <path
+          fill="currentColor"
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+        />
+      </symbol>
+      <symbol id="i-logo" viewBox="0 0 64 64">
+        <rect
+          x="3"
+          y="3"
+          width="58"
+          height="58"
+          rx="13"
+          fill="#35dcff"
+          stroke="#000"
+          stroke-width="5"
+        />
+        <g fill="#000">
+          <circle cx="14.5" cy="18" r="3" />
+          <circle cx="14.5" cy="27.3" r="3" />
+          <circle cx="14.5" cy="36.6" r="3" />
+          <circle cx="14.5" cy="46" r="3" />
+          <circle cx="49.5" cy="18" r="3" />
+          <circle cx="49.5" cy="27.3" r="3" />
+          <circle cx="49.5" cy="36.6" r="3" />
+          <circle cx="49.5" cy="46" r="3" />
+        </g>
+        <path
+          d="M25 19.5v25L44.5 32z"
+          fill="#b896ff"
+          stroke="#000"
+          stroke-width="3.5"
+          stroke-linejoin="round"
+        />
+      </symbol>
+    </svg>
+
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="topbar">
+      <div class="wrap topbar__inner">
+        <a class="brand" href="#top">
+          <svg class="brand__mark" aria-hidden="true">
+            <use href="#i-logo" />
+          </svg>
+          <span>Home Media</span>
+        </a>
+        <nav class="topnav" aria-label="Main">
+          <a href="#features">Features</a>
+          <a href="#themes">Themes</a>
+          <a href="#install">Install</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <div class="topbar__actions">
+          <a
+            class="btn btn--sm btn--icon-only-sm"
+            href="https://github.com/RustyDaemon/home-media"
+            rel="noopener"
+          >
+            <svg class="icon" aria-hidden="true"><use href="#i-github" /></svg
+            ><span>GitHub</span>
+          </a>
+          <a class="btn btn--sm btn--primary" href="#install">Install</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- Hero: the shelf is the product demo -->
+      <section class="hero" id="top">
+        <div class="wrap">
+          <div class="hero__head">
+            <h1 class="hero__title">
+              <span>For people who</span> <span>still buy discs.</span>
+            </h1>
+            <div class="sticker" aria-hidden="true">
+              <svg viewBox="0 0 120 120">
+                <polygon
+                  points="60.0,3.0 70.7,13.2 84.7,8.6 89.9,22.5 104.6,24.5 103.2,39.2 115.6,47.3 108.0,60.0 115.6,72.7 103.2,80.8 104.6,95.5 89.9,97.5 84.7,111.4 70.7,106.8 60.0,117.0 49.3,106.8 35.3,111.4 30.1,97.5 15.4,95.5 16.8,80.8 4.4,72.7 12.0,60.0 4.4,47.3 16.8,39.2 15.4,24.5 30.1,22.5 35.3,8.6 49.3,13.2"
+                />
+              </svg>
+              <span>Free and<br />open source</span>
+            </div>
+          </div>
+
+          <div class="hero__intro">
+            <p class="lede">
+              Home Media is a free, self-hosted catalog for your DVD, Blu-ray
+              and 4K collection. Track every edition, audio track and borrowed
+              copy, then let it pick tonight’s movie.
+            </p>
+            <div class="cta-row">
+              <a class="btn btn--lg btn--primary" href="#install"
+                >Install with Docker</a
+              >
+              <a
+                class="btn btn--lg"
+                href="https://github.com/RustyDaemon/home-media"
+                rel="noopener"
+              >
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-github" /></svg
+                >View on GitHub
+              </a>
+            </div>
+          </div>
+
+          <div class="stage">
+            <div class="shelf" id="shelf">
+              <ul
+                class="shelf__row"
+                id="shelf-row"
+                aria-label="Sample shelf. Select a disc to see its details."
+              ></ul>
+              <div class="shelf__board" aria-hidden="true"></div>
+            </div>
+
+            <aside class="pick" id="pick" aria-label="Disc picker">
+              <div class="pick__body" id="pick-body">
+                <h2 class="pick__title">Can’t decide?</h2>
+                <p class="pick__text">
+                  Most of the discs on this sample shelf are still unwatched.
+                  Home Media picks one at random, just like the app does.
+                </p>
+              </div>
+              <div class="pick__actions" id="pick-actions">
+                <button
+                  class="btn btn--primary"
+                  type="button"
+                  data-action="pick"
+                >
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-dice" /></svg
+                  ><span>Pick for me</span>
+                </button>
+              </div>
+              <p class="sr-only" id="pick-status" role="status"></p>
+            </aside>
+
+            <p class="shelf__legend">
+              <span class="seen-dot" aria-hidden="true"
+                ><svg class="icon"><use href="#i-check" /></svg
+              ></span>
+              Watched. Pick for me only chooses from the rest.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Anatomy of one record -->
+      <section class="section section--band" id="features">
+        <div class="wrap">
+          <div class="section-head">
+            <h2 class="h2">Every disc, down to the edition</h2>
+            <p class="lead">
+              A spreadsheet starts to creak somewhere around disc two hundred.
+              Home Media keeps the details collectors care about, and makes all
+              of them searchable.
+            </p>
+          </div>
+
+          <div class="anatomy">
+            <article class="rc" aria-label="Example record for The Quiet Orbit">
+              <div class="rc__head" data-k="fmt">
+                <div class="rc__cover" aria-hidden="true">
+                  <span>The Quiet Orbit</span>
+                </div>
+                <div class="rc__heading">
+                  <h3 class="rc__title">The Quiet Orbit</h3>
+                  <div class="tags">
+                    <span class="tag tag--uhd">Blu-ray 4K</span>
+                    <span class="tag">Movie</span>
+                    <span class="tag">Steelbook</span>
+                  </div>
+                </div>
+              </div>
+              <div class="rc__grid">
+                <div class="rc__f" data-k="ean">
+                  <p class="rc__label">Barcode</p>
+                  <div
+                    class="barcode"
+                    data-ean="505308326201"
+                    role="img"
+                    aria-label="EAN barcode 5053083262013"
+                  >
+                    <svg
+                      viewBox="0 0 113 50"
+                      preserveAspectRatio="none"
+                      class="barcode__bars"
+                      aria-hidden="true"
+                    ></svg>
+                    <span class="barcode__digits">5053083262013</span>
+                  </div>
+                </div>
+                <div class="rc__f" data-k="avail">
+                  <p class="rc__label">Availability</p>
+                  <span class="tag tag--borrowed">Borrowed out</span>
+                </div>
+                <div class="rc__f rc__f--wide" data-k="lang">
+                  <div class="rc__langs">
+                    <div>
+                      <p class="rc__label">Audio</p>
+                      <div class="langs">
+                        <span
+                          class="lang lang--pref"
+                          title="Your preferred language"
+                          >🇺🇸 English</span
+                        >
+                        <span class="lang">🇩🇪 German</span>
+                      </div>
+                    </div>
+                    <div>
+                      <p class="rc__label">Subtitles</p>
+                      <div class="langs">
+                        <span
+                          class="lang lang--pref"
+                          title="Your preferred language"
+                          >🇺🇸 English</span
+                        >
+                        <span class="lang">🇩🇪 German</span>
+                        <span class="lang">🇵🇱 Polish</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="rc__f" data-k="seen">
+                  <p class="rc__label">Watched</p>
+                  <div class="stars" role="img" aria-label="Rated 4 out of 5">
+                    <svg class="star is-on" aria-hidden="true">
+                      <use href="#i-star" />
+                    </svg>
+                    <svg class="star is-on" aria-hidden="true">
+                      <use href="#i-star" />
+                    </svg>
+                    <svg class="star is-on" aria-hidden="true">
+                      <use href="#i-star" />
+                    </svg>
+                    <svg class="star is-on" aria-hidden="true">
+                      <use href="#i-star" />
+                    </svg>
+                    <svg class="star" aria-hidden="true">
+                      <use href="#i-star" />
+                    </svg>
+                  </div>
+                  <p class="rc__quote">
+                    “Sound mix is unreal. Turn the sub up next time.”
+                  </p>
+                </div>
+                <div class="rc__f" data-k="notes">
+                  <p class="rc__label">Notes</p>
+                  <p class="rc__text">
+                    Lent to Sam in March. Small dent on the case.
+                  </p>
+                  <p class="rc__label">Additional media</p>
+                  <p class="rc__text">Bonus disc, four art cards</p>
+                </div>
+              </div>
+            </article>
+
+            <ul class="facts">
+              <li data-k="fmt">
+                <h3>Format, type and edition</h3>
+                <p>
+                  DVD, Blu-ray or 4K. Movie, series, documentary, concert,
+                  cartoon, anime or music. Standard, steelbook, collector’s,
+                  limited, director’s cut or extended.
+                </p>
+              </li>
+              <li data-k="ean">
+                <h3>Barcode</h3>
+                <p>
+                  Save the EAN and search by it later, like when you’re in a
+                  shop wondering whether you already own that one.
+                </p>
+              </li>
+              <li data-k="avail">
+                <h3>Availability</h3>
+                <p>
+                  Available, on delivery, borrowed out, given to a friend, lost
+                  or damaged. No more guessing where the case went.
+                </p>
+              </li>
+              <li data-k="lang">
+                <h3>Audio and subtitles</h3>
+                <p>
+                  Tag every track with its language. Your preferred language is
+                  highlighted everywhere, so you can see at a glance what you
+                  can watch.
+                </p>
+              </li>
+              <li data-k="seen">
+                <h3>Watched, rating and notes</h3>
+                <p>
+                  Tick it off, rate it from one to five stars, and leave
+                  yourself a note for next time.
+                </p>
+              </li>
+              <li data-k="notes">
+                <h3>Everything else</h3>
+                <p>
+                  Free-form notes, plus a field for extras like bonus discs,
+                  booklets and art cards.
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Live catalog demo -->
+      <section class="section" id="search">
+        <div class="wrap">
+          <div class="section-head">
+            <h2 class="h2">Find any disc in seconds</h2>
+            <p class="lead">
+              Search by title or barcode, then narrow it down by format,
+              availability or language. Here’s the sample shelf to try it on.
+            </p>
+          </div>
+
+          <div class="catalog">
+            <div class="catalog__controls">
+              <label class="search-field">
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-search" />
+                </svg>
+                <span class="sr-only">Search the sample shelf</span>
+                <input
+                  type="search"
+                  id="cat-q"
+                  placeholder="Search by title or barcode"
+                  autocomplete="off"
+                  spellcheck="false"
+                />
+              </label>
+              <div class="seg" role="group" aria-label="Format" id="cat-format">
+                <button type="button" data-f="all" aria-pressed="true">
+                  All
+                </button>
+                <button type="button" data-f="dvd" aria-pressed="false">
+                  DVD
+                </button>
+                <button type="button" data-f="bluray" aria-pressed="false">
+                  Blu-ray
+                </button>
+                <button type="button" data-f="uhd" aria-pressed="false">
+                  4K
+                </button>
+              </div>
+              <label class="select-field">
+                <span class="sr-only">Availability status</span>
+                <select id="cat-avail">
+                  <option value="">Any status</option>
+                </select>
+              </label>
+              <label class="select-field">
+                <span class="sr-only">Language</span>
+                <select id="cat-lang">
+                  <option value="">Any language</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="catalog__scroll">
+              <table class="catalog__table">
+                <thead>
+                  <tr>
+                    <th scope="col" aria-sort="ascending">
+                      <button type="button" data-sort="t">Title</button>
+                    </th>
+                    <th scope="col" class="col-format">
+                      <button type="button" data-sort="f">Format</button>
+                    </th>
+                    <th scope="col" class="col-ean">
+                      <button type="button" data-sort="ean">Barcode</button>
+                    </th>
+                    <th scope="col" class="col-lang">Audio</th>
+                    <th scope="col">
+                      <button type="button" data-sort="av">Availability</button>
+                    </th>
+                    <th scope="col" class="col-seen">Watched</th>
+                  </tr>
+                </thead>
+                <tbody id="cat-body">
+                  <tr>
+                    <td colspan="6" class="catalog__empty">
+                      The sample shelf needs JavaScript to load.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="catalog__foot">
+              <p id="cat-count" role="status">Showing 18 of 18 discs</p>
+              <button type="button" class="link-btn" id="cat-clear" hidden>
+                Clear filters
+              </button>
+            </div>
+          </div>
+
+          <ul class="ticks">
+            <li>
+              <svg class="icon" aria-hidden="true"><use href="#i-check" /></svg
+              >Sort by title, format, availability, date added or barcode
+            </li>
+            <li>
+              <svg class="icon" aria-hidden="true"><use href="#i-check" /></svg
+              >Switch between a table and a grid of cards
+            </li>
+            <li>
+              <svg class="icon" aria-hidden="true"><use href="#i-check" /></svg
+              >Select a stack and mark it watched in one go
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Household -->
+      <section class="section section--band" id="household">
+        <div class="wrap">
+          <div class="section-head">
+            <h2 class="h2">Made for a shared living room</h2>
+            <p class="lead">
+              A disc collection usually belongs to the whole household. Home
+              Media gives everyone a way in, keeps a buy list, and shows you the
+              numbers.
+            </p>
+          </div>
+
+          <div class="household">
+            <article class="panel panel--req">
+              <h3 class="panel__title">Requests</h3>
+              <p class="panel__text">
+                A buy list with a status. Add a title or a store link, leave a
+                note, and move it along as it gets approved and bought.
+              </p>
+              <div class="board" aria-label="Example requests board">
+                <section class="board__col">
+                  <h4>
+                    <span class="dot dot--awaiting" aria-hidden="true"></span
+                    >Awaiting
+                  </h4>
+                  <div class="req">
+                    <p class="req__title">Moth &amp; Lantern</p>
+                    <p class="req__note">The 4K steelbook is back in stock</p>
+                    <span class="req__link"
+                      ><svg class="icon" aria-hidden="true">
+                        <use href="#i-link" /></svg
+                      >shop.example</span
+                    >
+                  </div>
+                  <div class="req">
+                    <p class="req__title">Harbor Lights trilogy</p>
+                    <p class="req__note">Only if it has Polish subtitles</p>
+                  </div>
+                </section>
+                <section class="board__col">
+                  <h4>
+                    <span class="dot dot--approved" aria-hidden="true"></span
+                    >Approved
+                  </h4>
+                  <div class="req">
+                    <p class="req__title">Second Sunrise</p>
+                    <p class="req__note">Wait for the summer sale</p>
+                  </div>
+                </section>
+                <section class="board__col">
+                  <h4>
+                    <span class="dot dot--bought" aria-hidden="true"></span
+                    >Bought
+                  </h4>
+                  <div class="req">
+                    <p class="req__title">Fjord</p>
+                    <p class="req__note">Arrives Thursday</p>
+                    <span class="req__link"
+                      ><svg class="icon" aria-hidden="true">
+                        <use href="#i-link" /></svg
+                      >shop.example</span
+                    >
+                  </div>
+                </section>
+                <section class="board__col">
+                  <h4>
+                    <span class="dot dot--declined" aria-hidden="true"></span
+                    >Declined
+                  </h4>
+                  <div class="req">
+                    <p class="req__title">Saltwater Kings</p>
+                    <p class="req__note">We already own it on DVD</p>
+                  </div>
+                </section>
+              </div>
+            </article>
+
+            <article class="panel panel--guest">
+              <h3 class="panel__title">Guest mode</h3>
+              <p class="panel__text">
+                Friends and family get a read-only login. They can browse and
+                search the whole shelf, but they can’t change a thing.
+              </p>
+              <div class="mini-login" aria-hidden="true">
+                <span class="mini-login__btn">Browse as Guest</span>
+                <span class="mini-login__alt">Sign in as admin</span>
+              </div>
+            </article>
+
+            <article class="panel panel--stats">
+              <h3 class="panel__title">Statistics</h3>
+              <p class="panel__text">
+                How many discs you own, how many you’ve watched, and the split
+                by format.
+              </p>
+              <dl class="stats" id="stats">
+                <div>
+                  <dt>Discs</dt>
+                  <dd data-stat="total">18</dd>
+                </div>
+                <div>
+                  <dt>Watched</dt>
+                  <dd data-stat="watched">7</dd>
+                </div>
+                <div>
+                  <dt>DVD</dt>
+                  <dd data-stat="dvd">5</dd>
+                </div>
+                <div>
+                  <dt>Blu-ray</dt>
+                  <dd data-stat="bluray">8</dd>
+                </div>
+                <div>
+                  <dt>Blu-ray 4K</dt>
+                  <dd data-stat="uhd">5</dd>
+                </div>
+              </dl>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Themes -->
+      <section class="section" id="themes">
+        <div class="wrap themes">
+          <div class="themes__copy">
+            <h2 class="h2">Eight themes for the app</h2>
+            <p class="lead">
+              From near-black Midnight to crisp white Snow. Each theme recolors
+              the whole interface, and compact density fits more rows on a
+              screen.
+            </p>
+            <div
+              class="theme-pick"
+              role="group"
+              aria-label="Preview a theme"
+              id="theme-pick"
+            ></div>
+            <p class="theme-desc" id="theme-desc" aria-live="polite">
+              Midnight: cyan and magenta neon glow on near-black.
+            </p>
+            <div
+              class="seg seg--small"
+              role="group"
+              aria-label="Table density"
+              id="density"
+            >
+              <button type="button" data-d="comfortable" aria-pressed="true">
+                Comfortable
+              </button>
+              <button type="button" data-d="compact" aria-pressed="false">
+                Compact
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="window"
+            aria-label="Preview of the Home Media app"
+            role="img"
+          >
+            <div class="window__bar" aria-hidden="true">
+              <span class="window__dots"><i></i><i></i><i></i></span>
+              <span class="window__url">homemedia.local:9812</span>
+            </div>
+            <div class="tp" id="tp" aria-hidden="true">
+              <div class="tp__top">
+                <svg class="tp__logo"><use href="#i-logo" /></svg>
+                <span class="tp__name">Home Media</span>
+                <span class="tp__search">Search media…</span>
+                <span class="tp__btn tp__btn--ghost">Pick for me</span>
+                <span class="tp__btn">Add media</span>
+              </div>
+              <div class="tp__table" id="tp-rows"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Data ownership -->
+      <section class="section section--band" id="data">
+        <div class="wrap own">
+          <div class="own__copy">
+            <h2 class="h2">Your collection stays in your house</h2>
+            <p class="lead">
+              Home Media runs on your own hardware and keeps everything in one
+              SQLite file in the folder you mount. There’s no account to create
+              and nothing syncs to anyone’s cloud.
+            </p>
+            <ul class="ticks ticks--stacked">
+              <li>
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-check" /></svg
+                >Back up from Settings as a SQL dump or a copy of the database
+                file
+              </li>
+              <li>
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-check" /></svg
+                >Export the whole collection to CSV whenever you like
+              </li>
+              <li>
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-check" /></svg
+                >The default admin password has to be changed on first sign-in
+              </li>
+              <li>
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-check" /></svg
+                >It won’t start in production with the default JWT secret
+              </li>
+              <li>
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-check" /></svg
+                >Writes are rate limited per client IP
+              </li>
+            </ul>
+          </div>
+
+          <div class="receipt-wrap">
+            <div
+              class="receipt"
+              role="img"
+              aria-label="A receipt showing Home Media costs nothing per month and makes no tracking or analytics calls"
+            >
+              <p class="receipt__shop">Home Media</p>
+              <p class="receipt__sub">Your server, your shelf</p>
+              <div class="receipt__rule"></div>
+              <p class="r-line">
+                <span>License, AGPL-3.0</span><i></i><span>$0.00</span>
+              </p>
+              <p class="r-line">
+                <span>Subscription</span><i></i><span>none</span>
+              </p>
+              <p class="r-line">
+                <span>Cloud account</span><i></i><span>none</span>
+              </p>
+              <p class="r-line">
+                <span>Analytics, tracking</span><i></i><span>none</span>
+              </p>
+              <p class="r-line">
+                <span>Update check, Docker Hub</span><i></i><span>yes</span>
+              </p>
+              <p class="r-line r-line--total">
+                <span>Total per month</span><i></i><span>$0.00</span>
+              </p>
+              <p class="receipt__thanks">
+                Thanks for keeping physical media alive.
+              </p>
+              <div
+                class="barcode barcode--receipt"
+                data-ean="505000000042"
+                aria-hidden="true"
+              >
+                <svg
+                  viewBox="0 0 113 50"
+                  preserveAspectRatio="none"
+                  class="barcode__bars"
+                ></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Install -->
+      <section class="section" id="install">
+        <div class="wrap">
+          <div class="section-head">
+            <h2 class="h2">Running in about a minute</h2>
+            <p class="lead">
+              Choose your options, copy the compose file and start the
+              container. All you need is a machine with Docker.
+            </p>
+          </div>
+
+          <div class="install">
+            <form class="opts" id="opts" aria-label="Compose file options">
+              <fieldset class="opts__group">
+                <legend>How will you reach it?</legend>
+                <div class="seg seg--radio">
+                  <label
+                    ><input
+                      type="radio"
+                      name="mode"
+                      value="ports"
+                      checked
+                    /><span>Port on the host</span></label
+                  >
+                  <label
+                    ><input type="radio" name="mode" value="traefik" /><span
+                      >Behind Traefik</span
+                    ></label
+                  >
+                </div>
+              </fieldset>
+
+              <label class="opts__field" data-show="ports">
+                <span>Host port</span>
+                <input
+                  type="number"
+                  id="opt-port"
+                  value="9812"
+                  min="1"
+                  max="65535"
+                  inputmode="numeric"
+                />
+              </label>
+              <label class="opts__field" data-show="traefik" hidden>
+                <span>Domain</span>
+                <input
+                  type="text"
+                  id="opt-domain"
+                  value="media.example.com"
+                  spellcheck="false"
+                  autocomplete="off"
+                />
+              </label>
+              <label class="opts__field">
+                <span>Data folder on the host</span>
+                <input
+                  type="text"
+                  id="opt-path"
+                  value="/mnt/mystorage/homemedia"
+                  spellcheck="false"
+                  autocomplete="off"
+                />
+              </label>
+
+              <label class="switch">
+                <input type="checkbox" id="opt-guest" checked />
+                <span class="switch__ui" aria-hidden="true"></span>
+                <span class="switch__text"
+                  ><b>Guest mode</b> Read-only login for family and
+                  friends</span
+                >
+              </label>
+              <label class="switch">
+                <input type="checkbox" id="opt-requests" checked />
+                <span class="switch__ui" aria-hidden="true"></span>
+                <span class="switch__text"
+                  ><b>Requests</b> The buy list with statuses</span
+                >
+              </label>
+
+              <div class="opts__secret">
+                <p class="opts__secret-label">JWT secret</p>
+                <p class="opts__secret-text">
+                  Generated in your browser. It never leaves this page.
+                </p>
+                <button type="button" class="btn btn--sm" id="opt-regen">
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-refresh" /></svg
+                  >New secret
+                </button>
+              </div>
+            </form>
+
+            <div class="code">
+              <div class="code__bar">
+                <span class="code__file">docker-compose.yml</span>
+                <button
+                  type="button"
+                  class="btn btn--sm btn--yellow"
+                  id="copy-btn"
+                >
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-copy" /></svg
+                  ><span>Copy</span>
+                </button>
+              </div>
+              <pre
+                class="code__pre"
+                id="compose"
+                tabindex="0"
+                aria-label="Generated docker-compose.yml"
+              ><code>services:
+  homemedia:
+    image: rustydaemon/homemedia:latest
+    container_name: homemedia
+    restart: unless-stopped
+    ports:
+      - '9812:8080' # host:container
+    environment:
+      - JWT_SECRET=replace-with-a-long-random-string
+      - ENABLE_GUEST_MODE=true
+      - ENABLE_REQUESTS=true
+    volumes:
+      - /mnt/mystorage/homemedia:/app/data</code></pre>
+              <p class="sr-only" id="copy-status" role="status"></p>
+            </div>
+          </div>
+
+          <ol class="steps">
+            <li>
+              <h3>Save the file</h3>
+              <p>
+                Name it <code>docker-compose.yml</code> and put it wherever you
+                keep your other stacks.
+              </p>
+            </li>
+            <li>
+              <h3>Start the container</h3>
+              <p>Run <code>docker compose up -d</code> in the same folder.</p>
+            </li>
+            <li>
+              <h3>Sign in and change the password</h3>
+              <p>
+                Open <code id="open-url">http://your-server:9812</code> and sign
+                in as <code>admin</code> with password <code>admin</code>.
+                You’ll pick a new password straight away.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="section section--band" id="faq">
+        <div class="wrap faq">
+          <div class="faq__head">
+            <h2 class="h2">Questions</h2>
+            <p class="lead">
+              Something else on your mind?
+              <a
+                href="https://github.com/RustyDaemon/home-media/issues"
+                rel="noopener"
+                >Open an issue on GitHub</a
+              >.
+            </p>
+          </div>
+          <div class="faq__list">
+            <details>
+              <summary>
+                Does it play my movies?<svg class="icon" aria-hidden="true">
+                  <use href="#i-plus" />
+                </svg>
+              </summary>
+              <div>
+                <p>
+                  No. Home Media is a catalog for the physical discs on your
+                  shelf, not a media server. It sits happily next to Plex,
+                  Jellyfin or a plain old Blu-ray player.
+                </p>
+              </div>
+            </details>
+            <details>
+              <summary>
+                What does it cost?<svg class="icon" aria-hidden="true">
+                  <use href="#i-plus" />
+                </svg>
+              </summary>
+              <div>
+                <p>
+                  Nothing. Home Media is open source under the GNU AGPL-3.0
+                  license, and all of the code is on GitHub.
+                </p>
+              </div>
+            </details>
+            <details>
+              <summary>
+                Where is my data stored?<svg class="icon" aria-hidden="true">
+                  <use href="#i-plus" />
+                </svg>
+              </summary>
+              <div>
+                <p>
+                  In a single SQLite database inside the folder you mount at
+                  <code>/app/data</code>. Copy that folder and you’ve copied
+                  everything. You can also make backups and CSV exports from
+                  Settings.
+                </p>
+              </div>
+            </details>
+            <details>
+              <summary>
+                Can I import the list I already have?<svg
+                  class="icon"
+                  aria-hidden="true"
+                >
+                  <use href="#i-plus" />
+                </svg>
+              </summary>
+              <div>
+                <p>
+                  Not yet. CSV import is planned. CSV export already works, so
+                  your data is never locked in.
+                </p>
+              </div>
+            </details>
+            <details>
+              <summary>
+                Can other people use it?<svg class="icon" aria-hidden="true">
+                  <use href="#i-plus" />
+                </svg>
+              </summary>
+              <div>
+                <p>
+                  Yes. With guest mode on, anyone you share the address with can
+                  choose Browse as Guest. Guests can look around and search, but
+                  they can’t add, edit or delete anything.
+                </p>
+              </div>
+            </details>
+            <details>
+              <summary>
+                What hardware does it need?<svg class="icon" aria-hidden="true">
+                  <use href="#i-plus" />
+                </svg>
+              </summary>
+              <div>
+                <p>
+                  Anything that runs Docker on x86-64, which covers most NAS
+                  boxes, mini PCs and home servers. It’s a single small Go
+                  binary with SQLite, so it barely registers. For ARM boards
+                  like a Raspberry Pi, build the image from source with the
+                  included Dockerfile.
+                </p>
+              </div>
+            </details>
+            <details>
+              <summary>
+                Does it send my data anywhere?<svg
+                  class="icon"
+                  aria-hidden="true"
+                >
+                  <use href="#i-plus" />
+                </svg>
+              </summary>
+              <div>
+                <p>
+                  No. The only outside request it makes is to Docker Hub, to
+                  check for a newer version so it can tell you about updates.
+                  The answer is cached for four hours. There’s no analytics or
+                  tracking.
+                </p>
+              </div>
+            </details>
+            <details>
+              <summary>
+                Is it ready for my whole collection?<svg
+                  class="icon"
+                  aria-hidden="true"
+                >
+                  <use href="#i-plus" />
+                </svg>
+              </summary>
+              <div>
+                <p>
+                  It’s in active development and some features may still change,
+                  so keep backups. That takes two clicks in Settings.
+                </p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- Closing call to action -->
+      <section class="cta">
+        <div class="wrap cta__inner">
+          <div class="cta__copy">
+            <h2 class="cta__title">Give your shelf a home.</h2>
+            <p class="cta__text">
+              Free, open source, and running on your own hardware in about a
+              minute.
+            </p>
+            <div class="cta-row">
+              <a class="btn btn--lg btn--yellow" href="#install"
+                >Get the compose file</a
+              >
+              <a
+                class="btn btn--lg"
+                href="https://github.com/RustyDaemon/home-media"
+                rel="noopener"
+              >
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-github" /></svg
+                >Star on GitHub
+              </a>
+            </div>
+          </div>
+          <div class="cta__art" aria-hidden="true">
+            <div class="case">
+              <span class="case__band">Blu-ray</span>
+              <svg class="case__logo"><use href="#i-logo" /></svg>
+              <span class="case__title">Home Media</span>
+            </div>
+            <div class="disc"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer__inner">
+        <div class="footer__brand">
+          <a class="brand" href="#top">
+            <svg class="brand__mark" aria-hidden="true">
+              <use href="#i-logo" />
+            </svg>
+            <span>Home Media</span>
+          </a>
+          <p>
+            Free software under the GNU AGPL-3.0 license, made by RustyDaemon.
+            This site sets no cookies and loads nothing from third parties.
+          </p>
+        </div>
+        <nav class="footer__nav" aria-label="Footer">
+          <a href="https://github.com/RustyDaemon/home-media" rel="noopener"
+            >GitHub</a
+          >
+          <a
+            href="https://hub.docker.com/r/rustydaemon/homemedia"
+            rel="noopener"
+            >Docker Hub</a
+          >
+          <a
+            href="https://github.com/RustyDaemon/home-media/issues"
+            rel="noopener"
+            >Report an issue</a
+          >
+          <a
+            href="https://github.com/RustyDaemon/home-media/blob/main/LICENSE"
+            rel="noopener"
+            >License</a
+          >
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

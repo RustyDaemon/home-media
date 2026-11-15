@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page not found: Home Media</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#97938b" />
+    <meta name="color-scheme" content="only light" />
+    <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="/assets/fonts/archivo-latin-var.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+    <style>
+      .lost {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 48px;
+        min-height: calc(100vh - 75px);
+        padding-block: clamp(48px, 8vw, 112px);
+      }
+
+      .lost__title {
+        max-width: 13ch;
+        font-size: clamp(2.75rem, 0.6rem + 6vw, 6rem);
+        font-weight: 880;
+        font-stretch: 125%;
+        line-height: 0.92;
+        letter-spacing: -0.045em;
+        text-wrap: balance;
+      }
+
+      .lost__text {
+        margin: 24px 0 32px;
+        max-width: 46ch;
+        font-size: 1.25rem;
+      }
+
+      .lost__shelf {
+        display: flex;
+        align-items: flex-end;
+        gap: 3px;
+        padding: 0 16px;
+      }
+
+      .lost__shelf .spine {
+        cursor: default;
+      }
+
+      .lost__shelf .spine:hover {
+        transform: none;
+      }
+
+      .lost__gap {
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 300px;
+        border: 2.5px dashed var(--ink);
+        border-radius: 4px 4px 2px 2px;
+        font-size: 1.5rem;
+        font-weight: 880;
+      }
+
+      .lost__board {
+        height: 26px;
+        background: var(--slate);
+        border: var(--line) solid var(--ink);
+        border-radius: 4px;
+        box-shadow: 0 7px 0 var(--ink);
+      }
+
+      @media (max-width: 760px) {
+        .lost {
+          grid-template-columns: 1fr;
+          align-items: start;
+        }
+
+        .lost__art {
+          order: -1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <svg
+      width="0"
+      height="0"
+      class="sprite"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <symbol id="i-logo" viewBox="0 0 64 64">
+        <rect
+          x="3"
+          y="3"
+          width="58"
+          height="58"
+          rx="13"
+          fill="#35dcff"
+          stroke="#000"
+          stroke-width="5"
+        />
+        <g fill="#000">
+          <circle cx="14.5" cy="18" r="3" />
+          <circle cx="14.5" cy="27.3" r="3" />
+          <circle cx="14.5" cy="36.6" r="3" />
+          <circle cx="14.5" cy="46" r="3" />
+          <circle cx="49.5" cy="18" r="3" />
+          <circle cx="49.5" cy="27.3" r="3" />
+          <circle cx="49.5" cy="36.6" r="3" />
+          <circle cx="49.5" cy="46" r="3" />
+        </g>
+        <path
+          d="M25 19.5v25L44.5 32z"
+          fill="#b896ff"
+          stroke="#000"
+          stroke-width="3.5"
+          stroke-linejoin="round"
+        />
+      </symbol>
+    </svg>
+
+    <header class="topbar">
+      <div class="wrap topbar__inner">
+        <a class="brand" href="/">
+          <svg class="brand__mark" aria-hidden="true">
+            <use href="#i-logo" />
+          </svg>
+          <span>Home Media</span>
+        </a>
+      </div>
+    </header>
+
+    <main class="wrap lost">
+      <div>
+        <h1 class="lost__title">This disc isn’t on the shelf.</h1>
+        <p class="lost__text">
+          The page you’re looking for doesn’t exist or has moved. Maybe someone
+          borrowed it.
+        </p>
+        <a class="btn btn--lg btn--primary" href="/">Back to the homepage</a>
+      </div>
+
+      <div class="lost__art" aria-hidden="true">
+        <div class="lost__shelf">
+          <span class="spine spine--bluray" style="--c: #f2c14e; --t: #000"
+            ><span class="spine__band">Blu-ray</span
+            ><span class="spine__title">Paper Harbor</span></span
+          >
+          <span class="spine spine--dvd" style="--c: #1d3557; --t: #fff"
+            ><span class="spine__band">DVD</span
+            ><span class="spine__title">Saltwater Kings</span></span
+          >
+          <span class="lost__gap">?</span>
+          <span class="spine spine--uhd" style="--c: #ff595e; --t: #000"
+            ><span class="spine__band">4K UHD</span
+            ><span class="spine__title">Static Bloom</span></span
+          >
+          <span class="spine spine--bluray" style="--c: #8ac926; --t: #000"
+            ><span class="spine__band">Blu-ray</span
+            ><span class="spine__title">Wind Town</span></span
+          >
+        </div>
+        <div class="lost__board"></div>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+README.md
+*.md
+
+# Development files
+.env
+.env.local
+.env.*.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Build artifacts
+home-media-backend
+
+# Database files (will be mounted as volume)
+*.db
+*.db-journal
+
+# Test files
+*_test.go
+
+# Temporary files
+tmp/
+temp/
+*.bak
+
+data/backup/

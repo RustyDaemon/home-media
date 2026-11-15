@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Film monogram favicon for Home Media -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Home Media">
+  <!-- dark rounded background to match app theme -->
+  <rect width="64" height="64" rx="10" fill="#0a0a0a"/>
+
+  <!-- cyan rounded square inset to give a neon plate look -->
+  <rect x="6" y="6" width="52" height="52" rx="8" fill="#00D8FF"/>
+
+  <!-- film strip holes (left) -->
+  <g fill="#0a0a0a">
+    <circle cx="14" cy="18" r="2.6"/>
+    <circle cx="14" cy="26" r="2.6"/>
+    <circle cx="14" cy="34" r="2.6"/>
+    <circle cx="14" cy="42" r="2.6"/>
+  </g>
+
+  <!-- film strip holes (right) -->
+  <g fill="#0a0a0a">
+    <circle cx="50" cy="18" r="2.6"/>
+    <circle cx="50" cy="26" r="2.6"/>
+    <circle cx="50" cy="34" r="2.6"/>
+    <circle cx="50" cy="42" r="2.6"/>
+  </g>
+
+  <!-- central play triangle with purple accent and subtle white border for contrast -->
+  <g transform="translate(0,0)">
+    <path d="M26 20 L26 44 L44 32 Z" fill="#BF00FF" stroke="#ffffff" stroke-width="0.8" stroke-linejoin="round"/>
+  </g>
+
+</svg>

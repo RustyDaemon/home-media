@@ -1,0 +1,514 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+
+@import 'tailwindcss';
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+/* ===========================================================
+   Theme tokens
+   - Each [data-theme="X"] block redefines Tailwind's color CSS
+     variables plus a few app-level tokens.
+   - Tailwind 4 reads --color-* vars at runtime, so utility classes
+     like bg-gray-900 / text-cyan-300 retheme automatically.
+   =========================================================== */
+
+:root,
+[data-theme='midnight'] {
+	--app-bg: #0a0a0a;
+	--app-text: #ffffff;
+	--app-glow-1: rgba(0, 255, 255, 0.1);
+	--app-glow-2: rgba(191, 0, 255, 0.1);
+	--app-scrollbar-thumb: rgba(75, 85, 99, 0.3);
+	--app-scrollbar-thumb-hover: rgba(75, 85, 99, 0.5);
+	--row-padding-y: 0.75rem;
+}
+
+[data-theme='nord'] {
+	/* Surface scale (dark → light Nord polar/snowstorm) */
+	--color-gray-950: #1f242d;
+	--color-gray-900: #2e3440;
+	--color-gray-800: #3b4252;
+	--color-gray-700: #434c5e;
+	--color-gray-600: #4c566a;
+	--color-gray-500: #6e7d96;
+	--color-gray-400: #b9c0cc;
+	--color-gray-300: #d8dee9;
+	--color-gray-200: #e5e9f0;
+	--color-gray-100: #eceff4;
+
+	/* Accents — frost/aurora */
+	--color-sky-700: #5e81ac;
+	--color-sky-600: #5e81ac;
+	--color-sky-500: #88c0d0;
+	--color-sky-400: #8fbcbb;
+	--color-cyan-600: #5e81ac;
+	--color-cyan-500: #88c0d0;
+	--color-cyan-400: #8fbcbb;
+	--color-cyan-300: #88c0d0;
+	--color-cyan-200: #d8dee9;
+	--color-purple-700: #5e81ac;
+	--color-purple-600: #b48ead;
+	--color-purple-500: #b48ead;
+	--color-purple-400: #b48ead;
+	--color-purple-300: #d3b6cf;
+	--color-pink-600: #b48ead;
+	--color-pink-500: #b48ead;
+	--color-emerald-700: #4f7d6b;
+	--color-emerald-600: #5d8b78;
+	--color-emerald-500: #a3be8c;
+	--color-amber-400: #ebcb8b;
+	--color-amber-300: #ebcb8b;
+	--color-yellow-400: #ebcb8b;
+	--color-red-600: #bf616a;
+	--color-red-500: #bf616a;
+	--color-red-400: #d08770;
+
+	--app-bg: #2e3440;
+	--app-glow-1: rgba(136, 192, 208, 0.1);
+	--app-glow-2: rgba(180, 142, 173, 0.08);
+	--app-scrollbar-thumb: rgba(136, 192, 208, 0.3);
+	--app-scrollbar-thumb-hover: rgba(136, 192, 208, 0.5);
+}
+
+[data-theme='cyberpunk'] {
+	/* Deep-purple base, magenta-tinted borders */
+	--color-gray-950: #050009;
+	--color-gray-900: #0a0014;
+	--color-gray-800: #15001f;
+	--color-gray-700: #2a0033;
+	--color-gray-600: #3d004a;
+	--color-gray-500: #ff0080;
+	--color-gray-400: #d8c8e8;
+	--color-gray-300: #ebd5ff;
+	--color-gray-200: #f3e0ff;
+
+	/* Neon accents */
+	--color-sky-700: #00b8d4;
+	--color-sky-600: #00d4ea;
+	--color-sky-500: #00ffff;
+	--color-sky-400: #66ffff;
+	--color-cyan-600: #00d4ea;
+	--color-cyan-500: #00ffff;
+	--color-cyan-400: #66ffff;
+	--color-cyan-300: #99ffff;
+	--color-cyan-200: #ccffff;
+	--color-purple-700: #cc0066;
+	--color-purple-600: #ff0080;
+	--color-purple-500: #ff1a8c;
+	--color-purple-400: #ff66b3;
+	--color-purple-300: #ff99cc;
+	--color-pink-600: #ff0080;
+	--color-pink-500: #ff1a8c;
+	--color-pink-400: #ff66b3;
+	--color-emerald-700: #00b86f;
+	--color-emerald-600: #00d47f;
+	--color-emerald-500: #00ff95;
+	--color-amber-400: #ffb800;
+	--color-amber-300: #ffd566;
+	--color-yellow-400: #ffd700;
+	--color-red-600: #ff0040;
+	--color-red-500: #ff1a55;
+
+	--app-bg: #0a0014;
+	--app-glow-1: rgba(0, 255, 255, 0.18);
+	--app-glow-2: rgba(255, 0, 128, 0.18);
+	--app-scrollbar-thumb: rgba(255, 0, 128, 0.35);
+	--app-scrollbar-thumb-hover: rgba(0, 255, 255, 0.5);
+}
+
+/* ---------- Linen (semi-light, warm cream paper) ---------- */
+[data-theme='linen'] {
+	--color-white: #2a2218;
+
+	--color-gray-950: #faf3e7;
+	--color-gray-900: #f5ecd9;
+	--color-gray-800: #ede2c8;
+	--color-gray-700: #d4c5a8;
+	--color-gray-600: #b8a888;
+	--color-gray-500: #968670;
+	--color-gray-400: #6e5f46;
+	--color-gray-300: #4a3f30;
+	--color-gray-200: #2e2820;
+	--color-gray-100: #1a1610;
+
+	--color-sky-700: #0e7490;
+	--color-sky-600: #0891b2;
+	--color-sky-500: #06b6d4;
+	--color-sky-400: #22d3ee;
+	--color-cyan-600: #0e7490;
+	--color-cyan-500: #0891b2;
+	--color-cyan-400: #0e7490;
+	--color-cyan-300: #155e75;
+	--color-cyan-200: #cdebef;
+	--color-purple-700: #5b21b6;
+	--color-purple-600: #6d28d9;
+	--color-purple-500: #7c3aed;
+	--color-purple-400: #6d28d9;
+	--color-purple-300: #5b21b6;
+	--color-pink-600: #be185d;
+	--color-pink-500: #db2777;
+	--color-pink-400: #be185d;
+	--color-emerald-700: #065f46;
+	--color-emerald-600: #047857;
+	--color-emerald-500: #059669;
+	--color-amber-400: #b45309;
+	--color-amber-300: #92400e;
+	--color-yellow-400: #ca8a04;
+	--color-red-600: #b91c1c;
+	--color-red-500: #dc2626;
+	--color-red-400: #b91c1c;
+
+	--app-bg: #faf3e7;
+	--app-text: #2a2218;
+	--app-glow-1: rgba(14, 116, 144, 0.08);
+	--app-glow-2: rgba(180, 83, 9, 0.08);
+	--app-scrollbar-thumb: rgba(110, 95, 70, 0.3);
+	--app-scrollbar-thumb-hover: rgba(110, 95, 70, 0.5);
+}
+
+/* ---------- Snow (full light) ---------- */
+[data-theme='snow'] {
+	--color-white: #0f172a;
+
+	--color-gray-950: #ffffff;
+	--color-gray-900: #f8fafc;
+	--color-gray-800: #f1f5f9;
+	--color-gray-700: #cbd5e1;
+	--color-gray-600: #94a3b8;
+	--color-gray-500: #64748b;
+	--color-gray-400: #475569;
+	--color-gray-300: #1e293b;
+	--color-gray-200: #0f172a;
+	--color-gray-100: #020617;
+
+	--color-sky-700: #1d4ed8;
+	--color-sky-600: #2563eb;
+	--color-sky-500: #3b82f6;
+	--color-sky-400: #2563eb;
+	--color-cyan-600: #0e7490;
+	--color-cyan-500: #0891b2;
+	--color-cyan-400: #0e7490;
+	--color-cyan-300: #155e75;
+	--color-cyan-200: #e0f2fe;
+	--color-purple-700: #5b21b6;
+	--color-purple-600: #6d28d9;
+	--color-purple-500: #7c3aed;
+	--color-purple-400: #6d28d9;
+	--color-purple-300: #5b21b6;
+	--color-pink-600: #be185d;
+	--color-pink-500: #db2777;
+	--color-pink-400: #be185d;
+	--color-emerald-700: #047857;
+	--color-emerald-600: #059669;
+	--color-emerald-500: #10b981;
+	--color-amber-400: #d97706;
+	--color-amber-300: #b45309;
+	--color-yellow-400: #ca8a04;
+	--color-red-600: #dc2626;
+	--color-red-500: #ef4444;
+	--color-red-400: #dc2626;
+
+	--app-bg: #ffffff;
+	--app-text: #0f172a;
+	--app-glow-1: rgba(37, 99, 235, 0.05);
+	--app-glow-2: rgba(124, 58, 237, 0.05);
+	--app-scrollbar-thumb: rgba(71, 85, 105, 0.25);
+	--app-scrollbar-thumb-hover: rgba(71, 85, 105, 0.5);
+}
+
+/* ---------- Steampunk (dark brass/copper/leather) ---------- */
+[data-theme='steampunk'] {
+	--color-gray-950: #0d0904;
+	--color-gray-900: #1a1209;
+	--color-gray-800: #2a1f0e;
+	--color-gray-700: #3d2e16;
+	--color-gray-600: #5a4523;
+	--color-gray-500: #8a6d3a;
+	--color-gray-400: #c8a875;
+	--color-gray-300: #e8d0a0;
+	--color-gray-200: #f4e6c8;
+	--color-gray-100: #faf0d8;
+
+	/* Brass / copper / oxidized teal accents */
+	--color-sky-700: #4a7c7a;
+	--color-sky-600: #5a8c8a;
+	--color-sky-500: #6ba39c;
+	--color-sky-400: #87bdb6;
+	--color-cyan-600: #4a7c7a;
+	--color-cyan-500: #5a8c8a;
+	--color-cyan-400: #87bdb6;
+	--color-cyan-300: #a8d3cc;
+	--color-cyan-200: #cfe4e0;
+	--color-purple-700: #7a3a1a;
+	--color-purple-600: #b87333;
+	--color-purple-500: #c98a4a;
+	--color-purple-400: #d4a85a;
+	--color-purple-300: #e0c084;
+	--color-pink-600: #a3522a;
+	--color-pink-500: #b87333;
+	--color-pink-400: #c98a4a;
+	--color-emerald-700: #5a6b2a;
+	--color-emerald-600: #7a8c3a;
+	--color-emerald-500: #97a84a;
+	--color-amber-400: #d4a85a;
+	--color-amber-300: #e0c084;
+	--color-yellow-400: #c9a14a;
+	--color-red-600: #a13c1a;
+	--color-red-500: #c4502a;
+	--color-red-400: #d4683a;
+
+	--app-bg: #1a1209;
+	--app-text: #f4e6c8;
+	--app-glow-1: rgba(212, 168, 90, 0.12);
+	--app-glow-2: rgba(184, 115, 51, 0.12);
+	--app-scrollbar-thumb: rgba(212, 168, 90, 0.3);
+	--app-scrollbar-thumb-hover: rgba(212, 168, 90, 0.55);
+}
+
+/* ---------- Light-theme deep-shade pastel overrides ----------
+   Components tint rows/badges with classes like bg-orange-950/20,
+   bg-blue-900/30, etc. On dark themes those resolve to deep colors
+   (subtle tint). On light themes the Tailwind stock -900/-950 are
+   still very dark, producing visibly dark patches with unreadable
+   text. Map them to light pastel tints so the same components stay
+   readable. */
+[data-theme='linen'],
+[data-theme='snow'] {
+	--color-orange-950: #fff7ed;
+	--color-orange-900: #ffedd5;
+	--color-amber-950: #fffbeb;
+	--color-amber-900: #fef3c7;
+	--color-yellow-950: #fefce8;
+	--color-yellow-900: #fef9c3;
+	--color-red-950: #fef2f2;
+	--color-red-900: #fee2e2;
+	--color-rose-950: #fff1f2;
+	--color-rose-900: #ffe4e6;
+	--color-pink-950: #fdf2f8;
+	--color-pink-900: #fce7f3;
+	--color-purple-950: #faf5ff;
+	--color-purple-900: #f3e8ff;
+	--color-violet-950: #f5f3ff;
+	--color-violet-900: #ede9fe;
+	--color-fuchsia-950: #fdf4ff;
+	--color-fuchsia-900: #fae8ff;
+	--color-indigo-950: #eef2ff;
+	--color-indigo-900: #e0e7ff;
+	--color-blue-950: #eff6ff;
+	--color-blue-900: #dbeafe;
+	--color-sky-950: #f0f9ff;
+	--color-sky-900: #e0f2fe;
+	--color-cyan-950: #ecfeff;
+	--color-cyan-900: #cffafe;
+	--color-teal-950: #f0fdfa;
+	--color-teal-900: #ccfbf1;
+	--color-emerald-950: #ecfdf5;
+	--color-emerald-900: #d1fae5;
+	--color-green-950: #f0fdf4;
+	--color-green-900: #dcfce7;
+	--color-lime-950: #f7fee7;
+	--color-lime-900: #ecfccb;
+}
+
+/* ---------- HomeLab (server-rack terminal aesthetic) ---------- */
+[data-theme='homelab'] {
+	--color-gray-950: #050807;
+	--color-gray-900: #0c1410;
+	--color-gray-800: #131c17;
+	--color-gray-700: #1f2a23;
+	--color-gray-600: #2e3d33;
+	--color-gray-500: #4a5d50;
+	--color-gray-400: #8a9d90;
+	--color-gray-300: #b8d0bf;
+	--color-gray-200: #d8e8dc;
+	--color-gray-100: #ecf3ee;
+
+	/* LED-green primary, amber warnings, cyan secondary */
+	--color-sky-700: #0e7490;
+	--color-sky-600: #0891b2;
+	--color-sky-500: #06b6d4;
+	--color-sky-400: #22d3ee;
+	--color-cyan-600: #0891b2;
+	--color-cyan-500: #06b6d4;
+	--color-cyan-400: #22d3ee;
+	--color-cyan-300: #67e8f9;
+	--color-cyan-200: #a5f3fc;
+	--color-purple-700: #4d7c0f;
+	--color-purple-600: #65a30d;
+	--color-purple-500: #84cc16;
+	--color-purple-400: #a3e635;
+	--color-purple-300: #bef264;
+	--color-pink-600: #65a30d;
+	--color-pink-500: #84cc16;
+	--color-pink-400: #a3e635;
+	--color-emerald-700: #15803d;
+	--color-emerald-600: #16a34a;
+	--color-emerald-500: #22c55e;
+	--color-amber-400: #f59e0b;
+	--color-amber-300: #fbbf24;
+	--color-yellow-400: #eab308;
+	--color-red-600: #dc2626;
+	--color-red-500: #ef4444;
+	--color-red-400: #f87171;
+
+	--app-bg: #0c1410;
+	--app-text: #e8f0e9;
+	--app-glow-1: rgba(132, 204, 22, 0.1);
+	--app-glow-2: rgba(6, 182, 212, 0.08);
+	--app-scrollbar-thumb: rgba(132, 204, 22, 0.25);
+	--app-scrollbar-thumb-hover: rgba(132, 204, 22, 0.5);
+}
+
+/* ---------- Arch (Arch Linux blue — saturated navy with vivid #1793d1) ---------- */
+[data-theme='arch'] {
+	/* Deep, distinctly blue-saturated surfaces (not gray-with-tint) */
+	--color-gray-950: #050d1a;
+	--color-gray-900: #0a1929;
+	--color-gray-800: #102a43;
+	--color-gray-700: #1d3557;
+	--color-gray-600: #2c5282;
+	--color-gray-500: #4a7ab0;
+	--color-gray-400: #7fa8d3;
+	--color-gray-300: #b8d4ee;
+	--color-gray-200: #d8e6f5;
+	--color-gray-100: #ecf4fa;
+
+	/* Arch blue (#1793d1) saturates every accent slot — magenta/purple/pink slots
+	   become Arch-blue family so the theme reads unmistakably blue */
+	--color-sky-700: #0e6a96;
+	--color-sky-600: #1793d1;
+	--color-sky-500: #33b5e5;
+	--color-sky-400: #5ec6ec;
+	--color-sky-300: #8ed6f2;
+	--color-cyan-600: #1793d1;
+	--color-cyan-500: #33b5e5;
+	--color-cyan-400: #5ec6ec;
+	--color-cyan-300: #8ed6f2;
+	--color-cyan-200: #bde5f7;
+	--color-purple-700: #0e6a96;
+	--color-purple-600: #1793d1;
+	--color-purple-500: #33b5e5;
+	--color-purple-400: #5ec6ec;
+	--color-purple-300: #8ed6f2;
+	--color-pink-600: #1793d1;
+	--color-pink-500: #33b5e5;
+	--color-pink-400: #5ec6ec;
+	--color-fuchsia-600: #1793d1;
+	--color-fuchsia-500: #33b5e5;
+	--color-indigo-700: #0e6a96;
+	--color-indigo-600: #1793d1;
+	--color-indigo-500: #33b5e5;
+	--color-blue-700: #0e6a96;
+	--color-blue-600: #1793d1;
+	--color-blue-500: #33b5e5;
+	--color-emerald-700: #047857;
+	--color-emerald-600: #059669;
+	--color-emerald-500: #10b981;
+	--color-amber-400: #f59e0b;
+	--color-amber-300: #fbbf24;
+	--color-yellow-400: #eab308;
+	--color-red-600: #dc2626;
+	--color-red-500: #ef4444;
+	--color-red-400: #f87171;
+
+	--app-bg: #0a1929;
+	--app-text: #e8eef5;
+	--app-glow-1: rgba(23, 147, 209, 0.22);
+	--app-glow-2: rgba(51, 181, 229, 0.14);
+	--app-scrollbar-thumb: rgba(23, 147, 209, 0.4);
+	--app-scrollbar-thumb-hover: rgba(23, 147, 209, 0.7);
+}
+
+[data-density='compact'] {
+	--row-padding-y: 0.4rem;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Inter', system-ui, sans-serif;
+	background: var(--app-bg);
+	color: var(--app-text, #ffffff);
+	min-height: 100vh;
+	background-image: radial-gradient(
+			circle at 25% 25%,
+			var(--app-glow-1) 0%,
+			transparent 50%
+		),
+		radial-gradient(
+			circle at 75% 75%,
+			var(--app-glow-2) 0%,
+			transparent 50%
+		);
+	background-attachment: fixed;
+	transition: background-color 200ms ease;
+}
+
+#root {
+	min-height: 100vh;
+}
+
+::-webkit-scrollbar {
+	width: 4px;
+	height: 4px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--app-scrollbar-thumb);
+	border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--app-scrollbar-thumb-hover);
+}
+
+::-webkit-inner-spin-button {
+	display: none;
+}
+
+/* Density-aware row spacing */
+.row-density {
+	padding-top: var(--row-padding-y);
+	padding-bottom: var(--row-padding-y);
+}
+
+/* Skeleton shimmer */
+@keyframes skeleton-shimmer {
+	0% {
+		background-position: -200% 0;
+	}
+	100% {
+		background-position: 200% 0;
+	}
+}
+
+.skeleton-shimmer {
+	background: linear-gradient(
+		90deg,
+		var(--color-gray-800, #1f2937) 0%,
+		var(--color-gray-700, #374151) 50%,
+		var(--color-gray-800, #1f2937) 100%
+	);
+	background-size: 200% 100%;
+	animation: skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+/* Hide scrollbar for horizontal strips */
+.scrollbar-hide::-webkit-scrollbar {
+	display: none;
+}
+.scrollbar-hide {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}

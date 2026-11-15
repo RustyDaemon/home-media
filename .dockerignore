@@ -1,0 +1,37 @@
+# The build context is the repo root, so the per-directory .dockerignore files
+# in backend/ and frontend/ are not used. Keep local data, secrets and build
+# output out of the context.
+
+# VCS / editor / OS
+.git
+.gitignore
+.vscode/
+.idea/
+**/.DS_Store
+
+# Secrets and local config
+**/.env
+**/.env.local
+**/.env.*.local
+
+# Local data (databases, backups)
+backend/data/
+backend/tmp/
+**/*.db
+**/*.db-shm
+**/*.db-wal
+**/*.db-journal
+**/*.bak
+_db_backup/
+backups/
+
+# Dependencies and build output (rebuilt inside the image)
+**/node_modules/
+frontend/dist/
+backend/web/dist/
+bin/
+
+# Not needed in the image
+website/
+*.md
+**/*.log

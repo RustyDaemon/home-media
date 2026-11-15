@@ -1,0 +1,20 @@
+services:
+  app:
+    build:
+      context: .
+      args:
+        - VERSION=${VERSION:-dev}
+    container_name: home-media
+    restart: unless-stopped
+    ports:
+      - '8080:8080'
+    environment:
+      - ENVIRONMENT=production
+      - JWT_SECRET=your-long-random-secret-key
+      - ENABLE_GUEST_MODE=true
+      - ENABLE_REQUESTS=true
+      # Write rate limiting per client IP (defaults shown). Uncomment to override.
+      # - WRITE_RATE_LIMIT=1.0 # sustained write requests/second
+      # - WRITE_RATE_BURST=10  # burst before HTTP 429
+    volumes:
+      - ./backend/data:/app/data
