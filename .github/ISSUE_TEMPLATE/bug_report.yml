@@ -1,0 +1,104 @@
+name: Bug report
+description: Something doesn't work the way it should.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this.
+
+        **Security problems don't go here.** Report them privately instead: see [SECURITY.md](https://github.com/RustyDaemon/home-media/blob/main/SECURITY.md).
+
+        Before pasting logs or config, remove your `JWT_SECRET`, tokens, passwords, domains and anything else you don't want public.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the problem. Screenshots help.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to ...
+        2. Click ...
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Home Media version
+      description: Shown in the app header, or the Docker image tag you run.
+      placeholder: e.g. v0.1.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: install
+    attributes:
+      label: How do you run it?
+      options:
+        - Docker image (rustydaemon/homemedia)
+        - Docker image built from source
+        - Binary built from source (make build)
+        - Development mode (make dev-backend / dev-frontend)
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: platform
+    attributes:
+      label: Host platform
+      description: OS and CPU architecture of the machine running Home Media.
+      placeholder: e.g. Debian 12 on amd64, Synology DSM 7 on arm64
+
+  - type: input
+    id: proxy
+    attributes:
+      label: Reverse proxy
+      description: Leave empty if you access it directly.
+      placeholder: e.g. Traefik 3, nginx, Caddy
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      placeholder: e.g. Firefox 140, Safari on iOS 26
+
+  - type: textarea
+    id: config
+    attributes:
+      label: Relevant configuration
+      description: Your compose file or environment variables, **with secrets removed**.
+      render: yaml
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Output of `docker logs homemedia` (or the binary's output) around the time of the problem, **with secrets removed**.
+      render: shell
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues and this hasn't been reported yet.
+          required: true
+        - label: I removed secrets and personal data from everything I pasted.
+          required: true

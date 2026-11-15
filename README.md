@@ -132,3 +132,5 @@ See [SECURITY.md](SECURITY.md) for how to report a vulnerability.
 Copyright © 2025-2026 RustyDaemon.
 
 This project is free software licensed under the [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0-only). If you run a modified version as a network service, you must make your modified source available to its users.
+
+The bundled [Inter](https://github.com/rsms/inter) font is © The Inter Project Authors and licensed separately under the [SIL Open Font License 1.1](frontend/public/licenses/Inter-OFL-1.1.txt); it is not covered by the AGPL.

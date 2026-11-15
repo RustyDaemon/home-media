@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/RustyDaemon/home-media/security/advisories/new
+    about: Please report security problems privately, not as a public issue.
+  - name: Website and setup guide
+    url: https://hm.rustydaemon.com/
+    about: Overview, features and a Docker Compose generator.

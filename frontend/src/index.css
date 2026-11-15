@@ -1,5 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+/* Inter is self-hosted (bundled by Vite) so browsers never contact a third-party
+   font CDN. Licensed under the SIL OFL 1.1, shipped at /licenses/Inter-OFL-1.1.txt. */
+@import '@fontsource-variable/inter';
 
 @import 'tailwindcss';
 
@@ -433,7 +434,7 @@ html {
 body {
 	margin: 0;
 	padding: 0;
-	font-family: 'Inter', system-ui, sans-serif;
+	font-family: 'Inter Variable', system-ui, sans-serif;
 	background: var(--app-bg);
 	color: var(--app-text, #ffffff);
 	min-height: 100vh;
