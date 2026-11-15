@@ -6,8 +6,8 @@ build: frontend backend
 
 frontend:
 	cd frontend && pnpm install && pnpm run build
-	rm -rf backend/web/dist
-	cp -R frontend/dist backend/web/dist
+	find backend/web/dist -mindepth 1 ! -name .gitkeep -delete
+	cp -R frontend/dist/. backend/web/dist/
 
 backend:
 	mkdir -p bin

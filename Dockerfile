@@ -24,7 +24,7 @@ COPY frontend/ ./
 RUN VITE_APP_VERSION=${VERSION} pnpm run build
 
 # Backend build stage
-FROM golang:1.26.3-alpine AS backend-builder
+FROM golang:1.26.11-alpine AS backend-builder
 
 ARG VERSION=dev
 
