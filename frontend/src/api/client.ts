@@ -29,7 +29,8 @@ export interface ApiErrorResponse {
 		| 'forbidden'
 		| 'conflict'
 		| 'bad_request'
-		| 'too_many_requests';
+		| 'too_many_requests'
+		| 'password_change_required';
 	message: string;
 	details?: string;
 }

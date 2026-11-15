@@ -53,6 +53,9 @@ services:
       - JWT_SECRET=your-long-random-secret-key
       - ENABLE_GUEST_MODE=true
       - ENABLE_REQUESTS=true
+      # Trust Traefik's X-Forwarded-For so rate limiting sees real client IPs.
+      # This is Docker's default network range; narrow it to your proxy network's subnet.
+      - TRUSTED_PROXIES=172.16.0.0/12
       # Write rate limiting per client IP (defaults shown); only set to override.
       # - WRITE_RATE_LIMIT=1.0 # sustained write requests/second
       # - WRITE_RATE_BURST=10 # burst before requests are throttled (HTTP 429)
@@ -80,7 +83,9 @@ Default credentials (change after first login):
 - Username: `admin`
 - Password: `admin`
 
-Guest mode (when enabled) provides a read-only `guest` account.
+Until the default password is changed, the API refuses every request except changing it.
+
+Guest mode (when enabled) provides a read-only `guest` account with the password `guest`. When guest mode is disabled, the account cannot sign in.
 
 ## Configuration
 
@@ -97,6 +102,7 @@ All settings are environment variables:
 | `WRITE_RATE_LIMIT`  | `1.0`                                         | Sustained write requests per second per client IP.                                       |
 | `WRITE_RATE_BURST`  | `10`                                          | Burst of write requests allowed before HTTP 429.                                         |
 | `ALLOWED_ORIGINS`   | `http://localhost:5173,http://localhost:3000` | CORS origins (comma-separated). Only needed if the UI is served from a different origin. |
+| `TRUSTED_PROXIES`   | _(none)_                                      | Reverse proxy IPs/CIDRs (comma-separated) whose `X-Forwarded-For` header is trusted. Set it when running behind a proxy, otherwise every client shares the proxy's rate limit. |
 
 Data (SQLite database and backups) is stored in `/app/data` inside the container — mount a volume there.
 

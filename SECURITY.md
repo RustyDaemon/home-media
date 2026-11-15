@@ -17,6 +17,10 @@ Only the latest release receives fixes.
 
 - Set `JWT_SECRET` to a long random value. The server refuses to start in
   production with the default secret.
-- Change the default `admin` password on first sign-in (the app enforces this).
+- Change the default `admin` password on first sign-in. The API refuses every
+  other request until it has been changed.
+- Disable guest mode (`ENABLE_GUEST_MODE=false`) if you don't want the read-only
+  `guest`/`guest` account to be able to sign in.
 - Home Media is designed for a home network. If you expose it to the internet,
-  put it behind a TLS-terminating reverse proxy.
+  put it behind a TLS-terminating reverse proxy, and set `TRUSTED_PROXIES` to
+  that proxy's address so rate limiting applies per client.

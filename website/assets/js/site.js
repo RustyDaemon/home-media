@@ -1033,6 +1033,13 @@
       `      - JWT_SECRET=${secret}`,
       `      - ENABLE_GUEST_MODE=${o.guest}`,
       `      - ENABLE_REQUESTS=${o.requests}`,
+    );
+    if (o.mode === "traefik") {
+      lines.push(
+        "      - TRUSTED_PROXIES=172.16.0.0/12 # Docker networks; lets rate limiting see real client IPs",
+      );
+    }
+    lines.push(
       "    volumes:",
       `      - ${o.path}:/app/data`,
     );

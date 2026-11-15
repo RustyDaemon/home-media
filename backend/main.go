@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"home-media-backend/config"
 	"home-media-backend/database"
 	"home-media-backend/handlers"
@@ -39,7 +40,28 @@ func main() {
 
 	database.Initialize(cfg.DatabasePath)
 
+	r, err := newRouter(cfg)
+	if err != nil {
+		log.Fatal("Invalid configuration: ", err)
+	}
+
+	serverAddr := cfg.GetServerAddr()
+	log.Printf("Starting Home Media API %s on %s", version, serverAddr)
+	if err := r.Run(serverAddr); err != nil {
+		log.Fatal("Failed to start server:", err)
+	}
+}
+
+// newRouter builds the HTTP router: middleware, API routes and the embedded UI.
+func newRouter(cfg *config.Config) (*gin.Engine, error) {
 	r := gin.Default()
+
+	// Only honour X-Forwarded-For / X-Real-IP from explicitly trusted proxies.
+	// Trusting every peer (gin's default) lets any client pick its own IP and
+	// sidestep the per-IP rate limiter.
+	if err := r.SetTrustedProxies(cfg.TrustedProxies); err != nil {
+		return nil, fmt.Errorf("TRUSTED_PROXIES: %w", err)
+	}
 
 	config := cors.DefaultConfig()
 	config.AllowOrigins = cfg.AllowedOrigins
@@ -61,8 +83,9 @@ func main() {
 	r.GET("/api/version", handlers.CheckVersion) // Public endpoint to check version
 
 	api := r.Group("/api")
-	api.Use(middleware.AuthMiddleware())             // Protect all API routes
-	api.Use(middleware.GuestRestrictionMiddleware()) // Restrict guest write operations
+	api.Use(middleware.AuthMiddleware(cfg.EnableGuestMode)) // Protect all API routes
+	api.Use(middleware.PasswordChangeRequired())            // Block everything else until the default password is changed
+	api.Use(middleware.GuestRestrictionMiddleware())        // Restrict guest write operations
 	{
 		api.GET("/auth/status", handlers.GetAuthStatus)
 		api.POST("/auth/change-password", handlers.ChangePassword)
@@ -104,9 +127,5 @@ func main() {
 
 	r.NoRoute(web.SPAHandler())
 
-	serverAddr := cfg.GetServerAddr()
-	log.Printf("Starting Home Media API %s on %s", version, serverAddr)
-	if err := r.Run(serverAddr); err != nil {
-		log.Fatal("Failed to start server:", err)
-	}
+	return r, nil
 }

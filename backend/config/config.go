@@ -21,8 +21,9 @@ type Config struct {
 	JWTSecret       string
 	EnableGuestMode bool
 	EnableRequests  bool
-	WriteRateLimit  float64 // sustained write requests/second per client IP
-	WriteRateBurst  float64 // burst allowance for write requests
+	WriteRateLimit  float64  // sustained write requests/second per client IP
+	WriteRateBurst  float64  // burst allowance for write requests
+	TrustedProxies  []string // proxy IPs/CIDRs whose X-Forwarded-For is honoured; none by default
 }
 
 // Load reads configuration from environment variables with sensible defaults
@@ -42,6 +43,7 @@ func Load() *Config {
 		EnableRequests:  getBoolEnv("ENABLE_REQUESTS", true),
 		WriteRateLimit:  getFloatEnv("WRITE_RATE_LIMIT", 1.0),
 		WriteRateBurst:  getFloatEnv("WRITE_RATE_BURST", 10),
+		TrustedProxies:  getStringSlice("TRUSTED_PROXIES", nil),
 	}
 }
 

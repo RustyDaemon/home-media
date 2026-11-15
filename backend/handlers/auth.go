@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"home-media-backend/database"
 	"home-media-backend/helpers"
 	"home-media-backend/models"
@@ -13,6 +14,10 @@ import (
 )
 
 var jwtSecret []byte
+
+// MinPasswordLength is the shortest password accepted when changing it. Keep
+// in sync with changePasswordSchema in frontend/src/schemas/auth.ts.
+const MinPasswordLength = 6
 
 // InitializeAuth sets up the JWT secret from config
 func InitializeAuth(secret string) {
@@ -62,6 +67,13 @@ func Login(c *gin.Context) {
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(req.Password)); err != nil {
+		helpers.RespondWithError(c, http.StatusUnauthorized, helpers.ErrorTypeUnauthorized, "Invalid credentials")
+		return
+	}
+
+	// The guest account always exists; refuse it unless guest mode is on.
+	// Same message as a wrong password so the response reveals nothing.
+	if user.IsGuest && !c.GetBool("guestModeEnabled") {
 		helpers.RespondWithError(c, http.StatusUnauthorized, helpers.ErrorTypeUnauthorized, "Invalid credentials")
 		return
 	}
@@ -116,6 +128,17 @@ func ChangePassword(c *gin.Context) {
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(req.OldPassword)); err != nil {
 		helpers.RespondWithError(c, http.StatusUnauthorized, helpers.ErrorTypeUnauthorized, "Invalid old password")
+		return
+	}
+
+	// Mirror the frontend's rules so the forced change can't be skipped by
+	// calling the API directly with a trivial or unchanged password.
+	if len([]rune(req.NewPassword)) < MinPasswordLength {
+		helpers.RespondWithError(c, http.StatusBadRequest, helpers.ErrorTypeValidation, fmt.Sprintf("Password must be at least %d characters long", MinPasswordLength))
+		return
+	}
+	if req.NewPassword == req.OldPassword {
+		helpers.RespondWithError(c, http.StatusBadRequest, helpers.ErrorTypeValidation, "New password must be different from the current password")
 		return
 	}
 

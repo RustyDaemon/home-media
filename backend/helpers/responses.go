@@ -18,6 +18,9 @@ const (
 	ErrorTypeConflict     ErrorType = "conflict"
 	ErrorTypeBadRequest   ErrorType = "bad_request"
 	ErrorTypeTooManyReqs  ErrorType = "too_many_requests"
+	// ErrorTypePasswordChangeRequired is returned while the signed-in user
+	// still has to replace their initial password.
+	ErrorTypePasswordChangeRequired ErrorType = "password_change_required"
 )
 
 // ErrorResponse represents a standardized error response
